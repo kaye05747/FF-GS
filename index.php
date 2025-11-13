@@ -7,6 +7,21 @@ require_once __DIR__ . '/includes/header.php'; ?>
     <title>Farmer Feedback System</title>
     <link rel="stylesheet" href="/css/index.css">
 </head>
+<style>
+footer {
+    /* position: fixed; */
+    background-color: #2e7d32;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+</style>
 
 <body>
     <main>

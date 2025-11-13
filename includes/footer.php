@@ -7,6 +7,8 @@
         text-align: center;
         font-size: 20px;
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        /* margin-top: 125px; */
     }
 
     /* Add bottom padding to content so it won’t overlap footer */

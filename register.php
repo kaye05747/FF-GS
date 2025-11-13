@@ -94,9 +94,29 @@ $token = csrf_token();
     <link rel="stylesheet" href="css/register.css">
 </head>
 
+
+<style>
+footer {
+    background-color: #2e7d32;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 80px;
+}
+
+/* Add bottom padding to content so it won’t overlap footer */
+body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+</style>
+
 <body>
-    <div class="container d-flex justify-content-center align-items-center min-vh-0">
-        <div class="register-container p-4 bg-gray rounded shadow w-100" style="max-width: 1000px;">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="register-container p-4 bg-gray rounded shadow mt-5">
             <h2 class="text-center text-success mb-3">Create Farmer Account</h2>
 
             <!-- <?php if(!empty($errors)): ?>
@@ -107,7 +127,7 @@ $token = csrf_token();
       </div>
     <?php endif; ?> -->
 
-            <form method="post" action="register.php" autocomplete="off">
+            <form method="POST" action="register.php" autocomplete="off">
                 <input type="hidden" name="csrf" value="<?= $token ?>">
 
                 <h5 class="text-success mb-1">Personal Information</h5>
@@ -164,10 +184,10 @@ $token = csrf_token();
                             placeholder="example@email.com" required>
                     </div>
                     <div class="col-md-3">
-    <label class="form-label small">Username *</label>
-    <input type="text" class="form-control form-control-sm" name="username"
-        placeholder="Username" required>
-</div>
+                        <label class="form-label small">Username *</label>
+                        <input type="text" class="form-control form-control-sm" name="username" placeholder="Username"
+                            required>
+                    </div>
 
                     <div class="col-md-3">
                         <label class="form-label small">Password *</label>
