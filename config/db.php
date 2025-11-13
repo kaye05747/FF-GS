@@ -3,7 +3,7 @@
 function db() {
     $host = '127.0.0.1';
     $db   = 'farmer_feedback'; // your database name
-    $user = 'root';            // default for XAMPP
+    $email = 'root';            // default for XAMPP
     $pass = '';                // leave empty if no MySQL password
     $charset = 'utf8mb4';
 
@@ -14,5 +14,5 @@ function db() {
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
 
-    return new PDO($dsn, $user, $pass, $opt);
+    return new PDO($dsn, $email, $pass, $opt);
 }
