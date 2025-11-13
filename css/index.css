@@ -11,7 +11,7 @@ body {
   color: #333;
 }
 
-header {
+/* header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -87,5 +87,5 @@ footer {
   background: #2e7d32;
   color: white;
   font-size: 0.9rem;
-}
+} */
 
