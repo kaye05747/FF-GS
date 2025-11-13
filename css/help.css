@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: #f4f6f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.help-container {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 85%;
+  max-width: 900px;
+  padding: 30px;
+  text-align: center;
+}
+
+.help-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.help-card h3 {
+  color: #2e7d32;
+}
+
+a {
+  color: #1b5e20;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

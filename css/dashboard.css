@@ -1,0 +1,101 @@
+/* ===== Global Styles ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-image: url('../images/background2.jpg');
+  background-size: cover;
+  background-position: 20% center;
+  background-repeat: no-repeat; /* prevent repeating */
+  color: #2e7d32;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  min-height: calc(100vh - 100px); /* occupy almost full height */
+  display: flex;
+  align-items: center;  /* vertically center */
+  justify-content: flex-end; /* move content to the right */
+  padding: 40px 20px;
+}
+
+.overlay {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+/* ===== Card Section ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  color: #2e7d32;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* ===== Button Styling (Green Buttons) ===== */
+.btn,
+.btn-primary,
+.btn-success,
+button {
+  background-color: #2e7d32 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-success:hover,
+button:hover {
+  background-color: #1b5e20 !important;
+}
+
+/* Optional: Make disabled buttons look lighter */
+button:disabled,
+.btn:disabled {
+  background-color: #a5d6a7 !important;
+  cursor: not-allowed;
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 768px) {
+  .overlay h2 {
+    font-size: 22px;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

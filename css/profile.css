@@ -1,0 +1,129 @@
+/* ============================
+   Profile Page (2-Column Layout)
+   ============================ */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom right, #f1f8e9, #c8e6c9);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+/* Container */
+.profile-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  max-width: 90%;
+  padding: 40px 50px;
+}
+
+.profile-container h2,
+.profile-container h3 {
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+/* Profile Picture */
+.profile-pic {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-pic img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #43a047;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: #43a047;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #2e7d32;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+}
+
+p a {
+  color: #43a047;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #ddd;
+  margin: 30px 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+}
