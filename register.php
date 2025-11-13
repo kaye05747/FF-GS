@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Invalid CSRF token.';
     }
 
+    // ✅ Collect and sanitize all inputs
     $name = sanitize($_POST['name'] ?? '');
     $lastname = sanitize($_POST['lastname'] ?? '');
     $age = sanitize($_POST['age'] ?? '');
@@ -23,15 +24,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $farm_type = sanitize($_POST['farm_type'] ?? '');
     $farm_size = sanitize($_POST['farm_size'] ?? '');
     $email = sanitize($_POST['email'] ?? '');
+    $username = sanitize($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
 
-    // ✅ Remove the generic “please fill in all required fields” error
-    // and just check specific important conditions
+    // ✅ Validation checks
+    if (empty($username)) {
+        $errors[] = 'Username is required.';
+    } else {
+        $checkUser = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+        $checkUser->execute([$username]);
+        if ($checkUser->fetch()) {
+            $errors[] = 'Username already taken.';
+        }
+    }
+
+    if (empty($email)) {
+        $errors[] = 'Email is required.';
+    }
+
     if ($password !== $confirm) {
         $errors[] = 'Passwords do not match.';
     }
 
+    // ✅ Continue if no errors
     if (empty($errors)) {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
@@ -39,13 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Email already registered.';
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
+
             $ins = $pdo->prepare("INSERT INTO users 
-                (email, password, name, lastname, age, contact, barangay, purok, municipality, province, farm_type, farm_size)
+                (email, password, username, lastname, age, contact, barangay, purok, municipality, province, farm_type, farm_size)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $ins->execute([
                 $email,
                 $hash,
-                $name,
+                $username,
                 $lastname,
                 $age,
                 $contact,
@@ -56,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $farm_type,
                 $farm_size
             ]);
+
             header('Location: login.php?registered=1');
             exit;
         }
@@ -64,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $token = csrf_token();
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -145,10 +164,11 @@ $token = csrf_token();
                             placeholder="example@email.com" required>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label small">Username *</label>
-                        <input type="Username" class="form-control form-control-sm" name="Username"
-                            placeholder="Username" required>
-                    </div>
+    <label class="form-label small">Username *</label>
+    <input type="text" class="form-control form-control-sm" name="username"
+        placeholder="Username" required>
+</div>
+
                     <div class="col-md-3">
                         <label class="form-label small">Password *</label>
                         <input type="password" class="form-control form-control-sm" name="password"
