@@ -49,8 +49,13 @@ body {
 </style>
 
 <body>
+<<<<<<< Updated upstream
     <!-- <div class="login-container p-4 bg-gray rounded shadow">
         <h2>Login</h2>
+=======
+  <div class="login-container p-4 bg-gray">
+    <h2>Login</h2>
+>>>>>>> Stashed changes
 
         <?php if (!empty($errors)): ?>
         <?= implode('<br>', array_map('htmlspecialchars', $errors)) ?>
