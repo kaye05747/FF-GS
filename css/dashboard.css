@@ -6,25 +6,26 @@ body {
   background-size: cover;
   background-position: 20% center;
   background-repeat: no-repeat;
-  filter: brightness(1.2); /* 1.0 normal, 1.2 brighter */
+  /* filter: brightness(1.2); */
   color: #2e7d32;
+  background: rgba(0, 0, 0, 0.25); 
 }
 
-body::before {
+/* body::before {
   content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.25); /* White tint */
+  background: rgba(0, 0, 0, 0.25); 
   pointer-events: none;
   z-index: -1;
-}
+} */
 
 /* ===== WHITE BACKGROUND WRAPPER ===== */
 .bg-white-box {
-  background: rgba(255, 255, 255, 0.764); /* Slight transparency */
+  /* background: rgba(255, 255, 255, 0.764);  */
   border-radius: 15px;
   padding: 40px !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
