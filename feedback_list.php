@@ -1,61 +1,63 @@
 <?php
-require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
-require_login();
+session_start();
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '../includes/header.php';
+
 $pdo = db();
-
-$stmt = $pdo->prepare("SELECT * FROM feedbacks WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->execute([$_SESSION['user']['id']]);
-$feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $pdo->query("SELECT * FROM feedback ORDER BY id DESC");
+$feedback = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>My Feedbacks</title>
-  <link rel="stylesheet" href="css/feedback_list.css">
+<meta charset="UTF-8">
+<title>Feedback List</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<main>
-  <div class="feedback-container">
-    <h2>My Submitted Feedbacks</h2>
 
-    <?php if (isset($_GET['created']) && $_GET['created'] == 1): ?>
-      <p class="success-message">Your feedback has been submitted successfully!</p>
-    <?php endif; ?>
+<div class="container mt-5">
+    <h3>Feedback List</h3>
 
-    <div class="feedback-list">
-      <?php if ($feedbacks): ?>
-        <?php foreach ($feedbacks as $f): ?>
-          <div class="card feedback-item <?= (isset($f['is_read']) && $f['is_read'] == 0 && $f['admin_reply']) ? 'unread' : '' ?>" id="feedback-<?= $f['id'] ?>" data-feedback-id="<?= $f['id'] ?? '' ?>">
-            <div class="card-body">
-              <h5 class="card-title"><strong>Tittle:</strong> <?= htmlspecialchars($f['title']) ?></h5>
-              <p class="card-text"><strong>Type:</strong> <?= htmlspecialchars($f['type']) ?></p>
-              <p class="card-text"><strong>Description:</strong> <?= nl2br(htmlspecialchars($f['description'])) ?></p>
-              <p class="card-text"><strong>Photo:</strong> 
-                <?= $f['photo'] ? '<a href="uploads/' . htmlspecialchars($f['photo']) . '" target="_blank">View</a>' : '<em>None</em>' ?>
-              </p>
-              <p class="card-text"><strong>Status:</strong> <?= htmlspecialchars($f['status']) ?></p>
-              <p class="card-text"><strong>Admin Reply:</strong> <?= nl2br(htmlspecialchars($f['admin_reply'] ?? 'No reply yet')) ?></p>
-              <small class="text-muted">Submitted on: <?= htmlspecialchars($f['created_at']) ?></small>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <p style="text-align:center;">No feedback submitted yet.</p>
-      <?php endif; ?>
-    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Farmer Name</th>
+                <th>Organization</th>
+                <th>Concern Type</th>
+                <th>Details</th>
+                <th>Status</th>
+            </tr>
+        </thead>
 
-    <div class="actions">
-      <a href="submit_feedback.php">Submit New Feedback</a> |
-      <a href="dashboard.php">Back to Dashboard</a> |
-      <a href="profile.php">Profile</a> 
-    </div>
-  </div>
-</main>
+        <tbody>
+            <?php if ($feedback): ?>
+                <?php foreach ($feedback as $fb): ?>
+                <tr>
+                    <td><?= htmlspecialchars($fb['date']) ?></td>
+                    <td><?= htmlspecialchars($fb['time']) ?></td>
+                    <td><?= htmlspecialchars($fb['farmer_name']) ?></td>
+                    <td><?= htmlspecialchars($fb['organization']) ?></td>
+                    <td><?= htmlspecialchars($fb['concern_type']) ?></td>
+                    <td><?= htmlspecialchars($fb['details']) ?></td>
+                    <td><?= htmlspecialchars($fb['status']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7" class="text-center">No feedback found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+            <p class="text-center mt-2">
+                <a href="dashboard.php" class="btn-back">⬅ Back to Dashboard</a>
+            </p>
+</div>
 
 <?php include 'includes/footer.php'; ?>
-<script src="js/feedback_list.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

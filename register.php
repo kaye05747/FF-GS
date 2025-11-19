@@ -77,8 +77,8 @@ $token = csrf_token();
 
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-0">
-        <div class="register-container p-4 bg-gray rounded shadow w-100" style="max-width: 1000px;">
-            <h2 class="text-center text-success mb-3">Create Farmer Account</h2>
+        <div class="register-container p-3 bg-rgba(255, 255, 255, 0.79) rounded shadow w-100" style="max-width: 700px;">
+            <h2 class="text-center text-success mb-4">Create Farmer Account</h2>
 
             <!-- <?php if(!empty($errors)): ?>
       <div class="alert alert-danger">
@@ -91,7 +91,7 @@ $token = csrf_token();
             <form method="post" action="register.php" autocomplete="off">
                 <input type="hidden" name="csrf" value="<?= $token ?>">
 
-                <h5 class="text-success mb-1">Personal Information</h5>
+                <h5 class=" mb-1 text-black">Personal Information</h5>
                 <div class="row g-1 mb-2">
                     <div class="col-md-3">
                         <label class="form-label small">First Name*</label>
@@ -113,7 +113,7 @@ $token = csrf_token();
                     </div>
                 </div>
 
-                <h5 class="text-success mb-1">Address Information</h5>
+                <h5 class="text-black mb-1">Address Information</h5>
                 <div class="row g-2 mb-2">
                     <div class="col-md-3">
                         <label class="form-label small">Purok*</label>
@@ -137,7 +137,7 @@ $token = csrf_token();
                     </div>
                 </div>
 
-                <h5 class="text-success mb-1">Account Information</h5>
+                <h5 class="text-black mb-1">Account Information</h5>
                 <div class="row g-2 mb-2">
                     <div class="col-md-3">
                         <label class="form-label small">Email *</label>
@@ -161,7 +161,7 @@ $token = csrf_token();
                     </div>
                 </div>
 
-                <h5 class="text-success mb-1">Farm Information</h5>
+                <h5 class="text-black mb-1">Farm Information</h5>
                 <div class="row g-2 mb-2">
                     <div class="col-md-6">
                         <label class="form-label small">Farm Type</label>

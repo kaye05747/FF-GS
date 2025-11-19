@@ -18,7 +18,7 @@ require_once __DIR__ . '/functions.php';
       top: 0;
       left: 0;
       width: 100%;
-      height: 70px;
+      height: 60px;
       background-color: #2e7d32; /* Original color */
       color: white;
       display: flex;
@@ -78,7 +78,7 @@ require_once __DIR__ . '/functions.php';
 
 <header>
   <div class="logo">
-    🌾 Farmer Feedback & Governance
+    🌾 FarmFeed
   </div>
 
     <nav>

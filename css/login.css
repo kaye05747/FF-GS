@@ -4,34 +4,22 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-image: url('../images/rice.jpg');
+  /* Dark overlay + background image */
+  background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), 
+              url('../images/farm.jpg') no-repeat center center;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   display: flex;
-  justify-content: center;  /* Centers horizontally */
-  align-items: center;      /* Centers vertically */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   margin: 0;
   overflow: hidden;
 }
 
-/* Login Container */
-/* .login-container {
-  background: #ffffff06;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-} */
 
-
-.bg-gray {
-    background-color: #90040400; /* light gray */
-}
 h2 {
   text-align: center;
-  color: #2e7d32;
+  color: #29ba30;
   margin-bottom: 15px;
 }
 

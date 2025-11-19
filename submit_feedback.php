@@ -1,106 +1,101 @@
-<?php
-require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
-require_login();
-$pdo = db();
-$errors = [];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verify_csrf($_POST['csrf'] ?? '')) $errors[] = 'Invalid CSRF token.';
-
-    $title = sanitize($_POST['title'] ?? '');
-    $type = sanitize($_POST['complaint_type'] ?? '');
-    $desc = sanitize($_POST['description'] ?? '');
-    $photo_name = null;
-
-    // Basic validation
-    if (!$title || !$type || !$desc) $errors[] = 'All fields are required.';
-
-    // Handle image upload
-    if (empty($errors) && !empty($_FILES['photo']['name'])) {
-        $f = $_FILES['photo'];
-        $allowed = ['image/jpeg', 'image/png', 'image/jpg'];
-        if ($f['error'] === 0 && in_array($f['type'], $allowed) && $f['size'] <= 5 * 1024 * 1024) {
-            $ext = pathinfo($f['name'], PATHINFO_EXTENSION);
-            $photo_name = uniqid('p_') . '.' . $ext;
-            move_uploaded_file($f['tmp_name'], __DIR__ . '/uploads/' . $photo_name);
-        } else {
-            $errors[] = 'Invalid photo (jpg/png, ≤5MB).';
-        }
-    }
-
-    // Save feedback to database
-    if (empty($errors)) {
-        $ins = $pdo->prepare("
-            INSERT INTO feedbacks (user_id, title, type, description, photo, status)
-            VALUES (?, ?, ?, ?, ?, 'Pending')
-        ");
-        $ins->execute([$_SESSION['user']['id'], $title, $type, $desc, $photo_name]);
-        header('Location: feedback_list.php?created=1');
-        exit;
-    }
-}
-
-$token = csrf_token();
-?>
-
-<!doctype html>
+<?php require_once __DIR__ . '/includes/header.php'; ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Submit Feedback</title>
-  <link rel="stylesheet" href="css/submit_feedback.css">
+    <meta charset="UTF-8">
+    <title>Submit Feedback</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            font-weight: bold;
+        }
+        .btn-back {
+            text-decoration: none;
+            color: #2a67a8ff;
+            /* background: #6c757d; */
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .date-box label {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
-<main class="main-content">
-  <div class="feedback-container">
-    <h2>Submit Farmer Feedback</h2>
 
-    <?php foreach ($errors as $e): ?>
-      <p class="error"><?= htmlspecialchars($e) ?></p>
-    <?php endforeach; ?>
+<div class="container d-flex justify-content-center align-items-start" style="min-height:100vh; padding-top:5px;">
+    <div class="col-md-6 form-container">
 
-    <form method="post" enctype="multipart/form-data">
-      <input type="hidden" name="csrf" value="<?= $token ?>">
+        <h2 class="text-center mb-4 form-title">FARMER FEEDBACK AND GOVERNANCE FORM</h2>
 
-      <div class="row">
-        <label>Title*</label>
-        <input type="text" name="title" placeholder="Enter feedback title" required>
-      </div>
+        <form action="save_feedback.php" method="POST">
 
-      <div class="row">
-        <label>Type of Complaint / Concern*</label>
-        <select name="complaint_type" required>
-          <option value="" disabled selected>-- Select complaint type --</option>
-          <option value="Subsidy Delay">Subsidy Delay</option>
-          <option value="Crop Insurance Issue">Crop Insurance Issue</option>
-          <option value="Equipment Request">Equipment Request</option>
-          <option value="Training or Seminar Request">Training or Seminar Request</option>
-          <option value="Infrastructure Problem">Infrastructure Problem</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
+            <!-- DATE & TIME -->
+            <div class="d-flex justify-content-between mb-4">
+                <div class="date-box p-2 border rounded w-50 me-2">
+                    <label class="fw-bold">Date:</label>
+                    <input type="date" name="date" class="form-control mb-2" required>
+                </div>
+                <div class="date-box p-2 border rounded w-50 ms-2">
+                    <label class="fw-bold">Time:</label>
+                    <input type="time" name="time" class="form-control" required>
+                </div>
+            </div>
 
-      <div class="row">
-        <label>Description*</label>
-        <textarea name="description" placeholder="Describe your feedback or concern..." required></textarea>
-      </div>
+            <div class="mb-3">
+                <label class="fw-bold">Farmer’s Name:</label>
+                <input type="text" name="farmer_name" class="form-control" required>
+            </div>
 
-      <div class="row">
-        <label>Photo (optional)</label>
-        <input type="file" name="photo" accept="image/*">
-      </div>
+            <div class="mb-3">
+                <label class="fw-bold">Organization / Farmers’ Group:</label>
+                <input type="text" name="organization" class="form-control">
+            </div>
 
-      <button type="submit">Send Feedback</button>
-    </form>
+            <div class="mb-3">
+                <label class="fw-bold">Type of Concern:</label>
+                <select name="concern_type" class="form-control" required>
+                    <option value="">-- Select Concern --</option>
+                    <option value="Fertilizer">Fertilizer</option>
+                    <option value="Water Supply">Water Supply</option>
+                    <option value="Rice Price">Rice Price</option>
+                    <option value="Machine Request">Machine Request</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
 
-    <div class="nav-links">
-      <a href="dashboard.php">Back to Dashboard</a> | 
-      <a href="profile.php">Profile</a>  
+            <div class="mb-3">
+                <label class="fw-bold">Details of Complaint / Feedback:</label>
+                <textarea name="details" rows="5" class="form-control" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="fw-bold">Farmer’s Signature:</label>
+                <div class="border-bottom" style="height:35px;"></div>
+            </div>
+
+            <button class="btn btn-success w-100" type="submit">Submit Feedback</button>
+
+            <p class="text-center mt-2">
+                <a href="dashboard.php" class="btn-back">⬅ Back to Dashboard</a>
+            </p>
+
+        </form>
+
     </div>
-  </div>
-</main>
-
+</div>
 <?php include 'includes/footer.php'; ?>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
