@@ -28,7 +28,7 @@ $user = $_SESSION['user'] ?? null;
 
     <div class="container text-center text-dark py-1 ">
 
-      <h1 class="fw-bold display-5 mb-5 fade-in text-white">
+      <h1 class="fw-bold display-5 mb-5 fade-in text-black">
         <?php
           if ($user && isset($user['email'])) {
               $displayName = explode('@', $user['email'])[0];

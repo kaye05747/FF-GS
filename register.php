@@ -1,15 +1,14 @@
 <?php
+// Start session early
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/header.php';
 $pdo = db();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verify_csrf($_POST['csrf'] ?? '')) $errors[] = 'Invalid CSRF token.';
 
-    // Sanitize inputs
     $username = sanitize($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
@@ -25,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $farm_size = sanitize($_POST['farm_size'] ?? null);
     $email = sanitize($_POST['email'] ?? '');
 
-    // Validation
     if (empty($username)) $errors[] = 'Username is required.';
     if (empty($email)) $errors[] = 'Email is required.';
     if (empty($name)) $errors[] = 'First name is required.';
@@ -33,21 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($password)) $errors[] = 'Password is required.';
     if ($password !== $confirm_password) $errors[] = 'Passwords do not match.';
 
-    // Username uniqueness
     if (!empty($username)) {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute([$username]);
         if ($stmt->fetch()) $errors[] = 'Username already taken.';
     }
 
-    // Email uniqueness
     if (!empty($email)) {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) $errors[] = 'Email already registered.';
     }
 
-    // Insert if no errors
     if (empty($errors)) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -60,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $farm_type, $farm_size, 'farmer', 1, $age, $purok
         ]);
 
+        // Redirect immediately after successful registration
         header('Location: login.php?registered=1');
         exit;
     }
@@ -77,39 +73,41 @@ $token = csrf_token();
     <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
+<?php require_once __DIR__ . '/includes/header.php'; ?>
+
 <div class="container d-flex justify-content-center align-items-center min-vh-100 mt-5">    
-    <div class="register-container p-4 bg-gray rounded shadow w-100" style="max-width: 800px;">
+    <div class="register-container p-4 bg-white rounded shadow w-100" style="max-width: 800px;">
         <h2 class="text-center text-success mb-4">Create Farmer Account</h2>
 
-        <!-- <?php if(!empty($errors)): ?>
+        <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
-                <?php foreach($errors as $e): ?>
+                <?php foreach ($errors as $e): ?>
                     <div><?= htmlspecialchars($e) ?></div>
                 <?php endforeach; ?>
             </div>
-        <?php endif; ?> -->
+        <?php endif; ?>
 
         <form method="post" action="register.php" autocomplete="off">
-            <input type="hidden" name="csrf" value="<?= $token ?>">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars($token) ?>">
 
             <!-- Personal Information -->
             <h5 class="text-success mb-2 border-bottom pb-1">Personal Information</h5>
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
                     <label class="form-label small">First Name*</label>
-                    <input type="text" class="form-control form-control-sm" name="name" required>
+                    <input type="text" class="form-control form-control-sm" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Last Name*</label>
-                    <input type="text" class="form-control form-control-sm" name="lastname" required>
+                    <input type="text" class="form-control form-control-sm" name="lastname" required value="<?= htmlspecialchars($_POST['lastname'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Age*</label>
-                    <input type="number" class="form-control form-control-sm" name="age" required>
+                    <input type="number" class="form-control form-control-sm" name="age" required value="<?= htmlspecialchars($_POST['age'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Contact*</label>
-                    <input type="text" class="form-control form-control-sm" name="contact" required>
+                    <input type="text" class="form-control form-control-sm" name="contact" required value="<?= htmlspecialchars($_POST['contact'] ?? '') ?>">
                 </div>
             </div>
 
@@ -118,19 +116,19 @@ $token = csrf_token();
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
                     <label class="form-label small">Purok*</label>
-                    <input type="text" class="form-control form-control-sm" name="purok" required>
+                    <input type="text" class="form-control form-control-sm" name="purok" required value="<?= htmlspecialchars($_POST['purok'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Barangay*</label>
-                    <input type="text" class="form-control form-control-sm" name="barangay" required>
+                    <input type="text" class="form-control form-control-sm" name="barangay" required value="<?= htmlspecialchars($_POST['barangay'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Municipality*</label>
-                    <input type="text" class="form-control form-control-sm" name="municipality" required>
+                    <input type="text" class="form-control form-control-sm" name="municipality" required value="<?= htmlspecialchars($_POST['municipality'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Province*</label>
-                    <input type="text" class="form-control form-control-sm" name="province" required>
+                    <input type="text" class="form-control form-control-sm" name="province" required value="<?= htmlspecialchars($_POST['province'] ?? '') ?>">
                 </div>
             </div>
 
@@ -139,11 +137,11 @@ $token = csrf_token();
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
                     <label class="form-label small">Email*</label>
-                    <input type="email" class="form-control form-control-sm" name="email" required>
+                    <input type="email" class="form-control form-control-sm" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Username*</label>
-                    <input type="text" class="form-control form-control-sm" name="username" required>
+                    <input type="text" class="form-control form-control-sm" name="username" required value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label small">Password*</label>
@@ -160,20 +158,22 @@ $token = csrf_token();
             <div class="row g-2 mb-3">
                 <div class="col-md-6">
                     <label class="form-label small">Farm Type</label>
-                    <input type="text" class="form-control form-control-sm" name="farm_type">
+                    <input type="text" class="form-control form-control-sm" name="farm_type" value="<?= htmlspecialchars($_POST['farm_type'] ?? '') ?>">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label small">Farm Size (hectares)</label>
-                    <input type="text" class="form-control form-control-sm" name="farm_size">
+                    <input type="text" class="form-control form-control-sm" name="farm_size" value="<?= htmlspecialchars($_POST['farm_size'] ?? '') ?>">
                 </div>
             </div>
 
             <div class="d-flex justify-content-center mt-3">
-                            <button type="submit" class="btn btn-success px-5 btn-sm">Register</button>
-                        </div>
+                <button type="submit" class="btn btn-success px-5 btn-sm">Register</button>
+            </div>
         </form>
     </div>
 </div>
+
 <?php include 'includes/footer.php'; ?>
+
 </body>
 </html>

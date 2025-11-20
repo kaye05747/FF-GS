@@ -58,21 +58,55 @@ include "sidebar.php";
                 </thead>
                 <tbody>
                     <?php if($feedbacks): ?>
-                        <?php foreach($feedbacks as $fb): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($fb['username'] ?? 'Guest') ?></td>
-                            <td><?= htmlspecialchars($fb['farmer_name']) ?></td>
-                            <td><?= htmlspecialchars($fb['concern_type']) ?></td>
-                            <td><?= htmlspecialchars($fb['status']) ?></td>
-                            <td><?= $fb['created_at'] ?></td>
-                            <td>
-                                <a href="feedback_detail.php?id=<?= $fb['id'] ?>" 
-                                class="btn btn-success btn-sm" target="_blank">
-                                View / Print
-                                </a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
+                       <?php foreach($feedbacks as $fb): ?>
+<tr>
+    <td><?= htmlspecialchars($fb['username'] ?? 'Guest') ?></td>
+    <td><?= htmlspecialchars($fb['farmer_name']) ?></td>
+    <td><?= htmlspecialchars($fb['concern_type']) ?></td>
+    <td><?= htmlspecialchars($fb['status']) ?></td>
+    <td><?= $fb['created_at'] ?></td>
+    <td>
+        <a href="feedback_detail.php?id=<?= $fb['id'] ?>" 
+           class="btn btn-success btn-sm" target="_blank">View / Print</a>
+
+        <!-- Reply Button -->
+        <button class="btn btn-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#replyModal<?= $fb['id'] ?>">
+            Reply
+        </button>
+    </td>
+</tr>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal<?= $fb['id'] ?>" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form action="send_reply.php" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title">Reply to <?= htmlspecialchars($fb['username'] ?? 'User') ?></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+            <input type="hidden" name="feedback_id" value="<?= $fb['id'] ?>">
+
+            <label class="form-label">Message</label>
+            <textarea name="reply_message" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Send Reply</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+<?php endforeach; ?>
+
                     <?php else: ?>
                         <tr>
                             <td colspan="6" class="text-center">No feedback found.</td>

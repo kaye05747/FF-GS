@@ -13,7 +13,8 @@ include "sidebar.php";
 <head>
     <meta charset="UTF-8">
     <title>Admin - Announcements</title>
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
@@ -21,39 +22,22 @@ include "sidebar.php";
             margin-left: 300px;
             padding: 25px;
             font-size: 18px;
-        }
-
-        h3 {
-            font-size: 32px;
-        }
-
-        .card {
-            border-radius: 12px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-        }
-
-        table th, table td {
-            font-size: 18px !important;
-        }
-
-        th {
-            background: #198754 !important;
-            color: white !important;
-        }
-
-        .btn {
-            font-size: 16px !important;
+            position: relative;
+            z-index: 10;
         }
 
         .add-btn-container {
             margin: 20px 0;
-            display: flex;
-            justify-content: flex-start;
+        }
+
+        .sidebar {
+            z-index: 1 !important;
         }
     </style>
 </head>
 
 <body>
+
 <div class="content">
 
     <h3 class="fw-bold mb-3">📢 Announcements</h3>
@@ -66,18 +50,26 @@ include "sidebar.php";
         </div>
     <?php endif; ?>
 
-    <!-- Table -->
+    <!-- Add Announcement Button (opens modal) -->
+    <div class="add-btn-container">
+        <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">
+            <i class="fa fa-plus"></i> Add Announcement
+        </button>
+    </div>
+
+    <!-- Announcements Table -->
     <div class="card p-3 mb-4">
         <div class="table-responsive">
             <table class="table table-bordered table-hover align-middle">
                 <thead>
                     <tr>
-                        <th width="100px">ID</th>
+                        <th width="80px">ID</th>
                         <th>Message</th>
-                        <th width="200px">Date Posted</th>
-                        <th width="200px">Actions</th>
+                        <th width="250px">Date Posted</th>
+                        <th width="220px">Actions</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <?php if ($rows): ?>
                         <?php foreach ($rows as $r): ?>
@@ -87,18 +79,16 @@ include "sidebar.php";
                                 <td><?= date("F d, Y • h:i A", strtotime($r['created_at'])) ?></td>
 
                                 <td>
-                                    <a href="announcement_edit.php?id=<?= $r['id'] ?>" 
-                                       class="btn btn-warning btn-sm">
-                                       <i class="fa fa-edit"></i> Edit
+                                    <a href="announcement_edit.php?id=<?= $r['id'] ?>" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-edit"></i> Edit
                                     </a>
 
-                                    <a href="announcement_delete.php?id=<?= $r['id'] ?>" 
+                                    <a href="announcement_delete.php?id=<?= $r['id'] ?>"
                                        class="btn btn-danger btn-sm"
                                        onclick="return confirm('Delete this announcement?');">
                                        <i class="fa fa-trash"></i> Delete
                                     </a>
                                 </td>
-
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -110,37 +100,42 @@ include "sidebar.php";
         </div>
     </div>
 
-    <!-- Add Button -->
-    <div class="add-btn-container">
-        <a class="btn btn-success px-4" data-bs-toggle="collapse" href="#addForm">
-            <i class="fa fa-plus"></i> Add Announcement
-        </a>
-    </div>
+</div>
 
-    <!-- Add Announcement Form (Collapsed like Borrow Equipment) -->
-    <div class="collapse" id="addForm">
-        <div class="card p-4">
 
-            <h4 class="fw-bold mb-3">
-                <i class="fa fa-bullhorn"></i> New Announcement
-            </h4>
+<!-- ADD ANNOUNCEMENT MODAL -->
+<div class="modal fade" id="addAnnouncementModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="fa fa-bullhorn"></i> New Announcement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
             <form action="announcement_add_process.php" method="POST">
+                <div class="modal-body">
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Message</label>
-                    <textarea class="form-control" name="message" rows="4" required></textarea>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Message</label>
+                        <textarea class="form-control" name="message" rows="5" required></textarea>
+                    </div>
+
                 </div>
 
-                <button type="submit" class="btn btn-success">
-                    <i class="fa fa-check-circle"></i> Save Announcement
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-check-circle"></i> Save Announcement
+                    </button>
+                </div>
+
             </form>
 
         </div>
     </div>
-
 </div>
+
 
 <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 
