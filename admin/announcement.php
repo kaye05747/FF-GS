@@ -1,10 +1,15 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once "../config/db.php";
 $pdo = db();
 
 // Fetch announcements
 $rows = $pdo->query("SELECT * FROM announcements ORDER BY id DESC")->fetchAll();
+
 include "sidebar.php";
 ?>
 
@@ -14,25 +19,13 @@ include "sidebar.php";
     <meta charset="UTF-8">
     <title>Admin - Announcements</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
     <style>
-        .content {
-            margin-left: 300px;
-            padding: 25px;
-            font-size: 18px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .add-btn-container {
-            margin: 20px 0;
-        }
-
-        .sidebar {
-            z-index: 1 !important;
-        }
+        .content { margin-left: 300px; padding: 25px; font-size: 18px; position: relative; z-index: 10; }
+        .add-btn-container { margin: 20px 0; }
+        .sidebar { z-index: 1 !important; }
     </style>
 </head>
 
@@ -50,7 +43,15 @@ include "sidebar.php";
         </div>
     <?php endif; ?>
 
-    <!-- Add Announcement Button (opens modal) -->
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size:18px;">
+            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <!-- Add Announcement Button -->
     <div class="add-btn-container">
         <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">
             <i class="fa fa-plus"></i> Add Announcement
@@ -65,24 +66,23 @@ include "sidebar.php";
                     <tr>
                         <th width="80px">ID</th>
                         <th>Message</th>
+                        <th width="180px">Category</th>
                         <th width="250px">Date Posted</th>
                         <th width="220px">Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php if ($rows): ?>
                         <?php foreach ($rows as $r): ?>
                             <tr>
                                 <td><?= $r['id'] ?></td>
                                 <td><?= nl2br(htmlspecialchars($r['message'])) ?></td>
+                                <td><?= htmlspecialchars($r['category']) ?></td>
                                 <td><?= date("F d, Y • h:i A", strtotime($r['created_at'])) ?></td>
-
                                 <td>
                                     <a href="announcement_edit.php?id=<?= $r['id'] ?>" class="btn btn-warning btn-sm">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
-
                                     <a href="announcement_delete.php?id=<?= $r['id'] ?>"
                                        class="btn btn-danger btn-sm"
                                        onclick="return confirm('Delete this announcement?');">
@@ -92,16 +92,14 @@ include "sidebar.php";
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr><td colspan="4" class="text-center">No announcements found.</td></tr>
+                        <tr><td colspan="5" class="text-center">No announcements found.</td></tr>
                     <?php endif; ?>
                 </tbody>
-
             </table>
         </div>
     </div>
 
 </div>
-
 
 <!-- ADD ANNOUNCEMENT MODAL -->
 <div class="modal fade" id="addAnnouncementModal" tabindex="-1" aria-hidden="true">
@@ -121,6 +119,15 @@ include "sidebar.php";
                         <textarea class="form-control" name="message" rows="5" required></textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Category</label>
+                        <select class="form-control" name="category">
+                            <option value="General">General</option>
+                            <option value="Update">Update</option>
+                            <option value="Event">Event</option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -136,8 +143,7 @@ include "sidebar.php";
     </div>
 </div>
 
-
-<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

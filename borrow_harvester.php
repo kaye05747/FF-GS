@@ -13,6 +13,7 @@ $farmer_equipment = [
     "Irrigation" => ["Water Pump","Hose Pipe","Sprinkler"]
 ];
 
+// Handle borrow request submission
 if(isset($_POST['borrow'])) {
     $farmer_name = $_POST['farmer_name'];
     $equipment = $_POST['equipment'];
@@ -20,8 +21,9 @@ if(isset($_POST['borrow'])) {
     $return_date = $_POST['return_date'];
     $user_id = $user['id'];
 
-    $check = $pdo->prepare("SELECT * FROM borrowed_items WHERE id = ? AND item_name = ? AND status = 'Pending'");
-    $check->execute([$user_id, $equipment]);
+    // Check if there's already a pending request for this equipment
+    $check = $pdo->prepare("SELECT * FROM borrowed_items WHERE borrower_name = ? AND item_name = ? AND status = 'Pending'");
+    $check->execute([$farmer_name, $equipment]);
     $already = $check->fetch(PDO::FETCH_ASSOC);
 
     if($already) {
@@ -29,10 +31,10 @@ if(isset($_POST['borrow'])) {
     } else {
         $stmt = $pdo->prepare("
             INSERT INTO borrowed_items
-            (id, borrower_name, item_name, borrow_date, expected_return_date, status, remarks, created_at)
-            VALUES (?, ?, ?, ?, ?, 'Pending', '', NOW())
+            (borrower_name, item_name, borrow_date, expected_return_date, status, remarks, created_at)
+            VALUES (?, ?, ?, ?, 'Pending', '', NOW())
         ");
-        $stmt->execute([$id, $farmer_name, $equipment, $borrow_date, $return_date]);
+        $stmt->execute([$farmer_name, $equipment, $borrow_date, $return_date]);
         $_SESSION['success'] = "Borrow request submitted for $equipment!";
     }
 
@@ -50,6 +52,7 @@ if(isset($_POST['borrow'])) {
     <style>
         .form-icon { font-size: 22px; color: #0d6efd; margin-right: 8px; }
         .card-custom { border-radius: 10px; border: 1px solid #ddd; width: 100%; max-width: 700px; margin: auto; }
+        .highlight-update { background-color: #d1e7dd !important; transition: background-color 2s ease; }
     </style>
 </head>
 <body>
@@ -110,12 +113,23 @@ if(isset($_POST['borrow'])) {
         <div class="text-center mt-3">
             <a href="dashboard.php" class="btn btn-secondary">⬅ Back to Dashboard</a>
         </div>
+
+        <!-- Borrow Requests Table -->
+        <div class="mt-5">
+            <h5 class="text-center mb-3">My Borrow Requests</h5>
+            <div id="borrow-requests-table" class="table-responsive">
+                <!-- Table will be loaded here by AJAX -->
+            </div>
+        </div>
+
     </div>
 </div>
+
 <?php include 'includes/footer.php'; ?>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Auto-hide alerts after 4 seconds -->
+<!-- Auto-hide alerts -->
 <script>
 setTimeout(() => {
     const alertSuccess = document.getElementById('alert-success');
@@ -124,6 +138,40 @@ setTimeout(() => {
     const alertError = document.getElementById('alert-error');
     if(alertError) alertError.style.display = 'none';
 }, 4000);
+</script>
+
+<!-- Auto-refresh table with highlight -->
+<script>
+let previousStatuses = {};
+
+function loadBorrowRequests() {
+    $.ajax({
+        url: 'fetch_borrow_requests.php',
+        method: 'GET',
+        success: function(data) {
+            $('#borrow-requests-table').html(data);
+
+            $('#borrow-requests-table tbody tr').each(function() {
+                const row = $(this);
+                const item = row.find('td:nth-child(2)').text();
+                const status = row.find('td:nth-child(5) span').text();
+
+                if(previousStatuses[item] && previousStatuses[item] !== status) {
+                    row.addClass('highlight-update');
+                    setTimeout(() => row.removeClass('highlight-update'), 3000);
+                }
+
+                previousStatuses[item] = status;
+            });
+        }
+    });
+}
+
+// Initial load
+loadBorrowRequests();
+
+// Refresh every 10 seconds
+setInterval(loadBorrowRequests, 10000);
 </script>
 
 </body>

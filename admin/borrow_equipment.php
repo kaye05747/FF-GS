@@ -97,7 +97,7 @@ $items = $stmt->fetchAll();
 
             <div class="card-body">
                 <table class="table table-bordered table-striped align-middle shadow-sm">
-                    <thead class="table-dark">
+                    <thead class="table-dark color-green">
                         <tr>
                             <th><i class="bi bi-person-badge me-1"></i>Borrower</th>
                             <th><i class="bi bi-box-seam me-1"></i>Item</th>

@@ -43,8 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <!-- <div class="login-container p-4 bg-gray rounded shadow">
-        <h2>Login</h2>
+    <!-- <div class="register-container p-3 rounded shadow w-100"
+     style="max-width:700px; background:rgba(255, 255, 255, 0.33); backdrop-filter:blur(3px);"> -->
+
+        <!-- <h2>Login</h2>
 
         <?php if (!empty($errors)): ?>
         <?= implode('<br>', array_map('htmlspecialchars', $errors)) ?>
@@ -69,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <p class="mt-3">Don't have an account? <a href="register.php">Register here</a></p>
         </form>
-    </div> -->
+    </div> --> 
 
     <div class="container-fluid vh-100 d-flex align-items-center ">
         <div class="row flex-grow-1">

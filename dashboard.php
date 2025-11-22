@@ -28,7 +28,7 @@ $user = $_SESSION['user'] ?? null;
 
     <div class="container text-center text-dark py-1 ">
 
-      <h1 class="fw-bold display-5 mb-5 fade-in text-black">
+      <h1 class="fw-bold display-5 mb-5 fade-in text-white">
         <?php
           if ($user && isset($user['email'])) {
               $displayName = explode('@', $user['email'])[0];
@@ -55,7 +55,7 @@ $services = [
 
 foreach($services as $srv): ?>
   <div class="col-12 col-md-4 mb-4">
-    <div class="glass-card shadow-lg p-4 h-100  bg:white;">
+    <div class="glass-card shadow-lg p-4 h-100  background:rgba(252, 247, 247, 0.83); ">
       <h3 class="fw-200 text-white"><?= $srv[0] ?></h3>
       <p class="small text-white"><?= $srv[1] ?></p>
       <a href="<?= $srv[2] ?>" class="btn modern-btn w-100"><?= $srv[3] ?></a>

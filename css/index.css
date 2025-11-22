@@ -1,7 +1,7 @@
 /* Background Image */
 
 body {
-    background: url('../images/farm.jpg') no-repeat center center fixed;
+    background: url('../images/farmer1.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
 }
@@ -29,7 +29,7 @@ body::before {
 /* Glassmorphism Card */
 .glass-card {
     background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(12px);
+    /* backdrop-filter: blur(12px); */
     border-radius: 18px;
     padding: 45px;
     border: 1px solid rgba(255, 255, 255, 0.25);

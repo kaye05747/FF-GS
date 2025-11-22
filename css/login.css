@@ -6,7 +6,7 @@ body {
   font-family: 'Poppins', sans-serif;
   /* Dark overlay + background image */
   background: linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), 
-              url('../images/farm.jpg') no-repeat center center;
+              url('../images/new.jpg') no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;

@@ -58,6 +58,11 @@
                 <input type="text" name="farmer_name" class="form-control" required>
             </div>
 
+
+            <div class="mb-3">
+                <label class="fw-bold">Phone Number:</label>
+                <input type="tel" name="phone" class="form-control" placeholder="09xxxxxxxxx" required>
+            </div>
             <div class="mb-3">
                 <label class="fw-bold">Organization / Farmers’ Group:</label>
                 <input type="text" name="organization" class="form-control">
