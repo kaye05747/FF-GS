@@ -110,7 +110,7 @@ $token = csrf_token();
      style="max-width:700px; background:rgba(255, 255, 255, 0.33); backdrop-filter:blur(3px);">
 
 
-        <h2 class="text-center text-success mb-3">Create Farmer Account</h2>
+        <h2 class="text-center text-success mb-3 text-white">Register</h2>
 
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
@@ -124,83 +124,83 @@ $token = csrf_token();
             <input type="hidden" name="csrf" value="<?= htmlspecialchars($token) ?>">
 
             <!-- Personal Information -->
-            <h5 class="text-success mb-1 ">Personal Information</h5>
+            <h5 class="text-success mb-1 text-white">Personal Information</h5>
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
-                    <label class="form-label small">First Name*</label>
-                    <input type="text" class="form-control form-control-sm" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+                    <label class="form-label small text-white">First Name*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="name" required value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Last Name*</label>
-                    <input type="text" class="form-control form-control-sm" name="lastname" required value="<?= htmlspecialchars($_POST['lastname'] ?? '') ?>">
+                    <label class="form-label small text-white">Last Name*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="lastname" required value="<?= htmlspecialchars($_POST['lastname'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Age*</label>
-                    <input type="number" class="form-control form-control-sm" name="age" required value="<?= htmlspecialchars($_POST['age'] ?? '') ?>">
+                    <label class="form-label small text-white">Age*</label>
+                    <input type="number" class="form-control form-control-sm border border-dark" name="age" required value="<?= htmlspecialchars($_POST['age'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Contact*</label>
-                    <input type="text" class="form-control form-control-sm" name="contact" required value="<?= htmlspecialchars($_POST['contact'] ?? '') ?>">
+                    <label class="form-label small text-white">Contact*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="contact" required value="<?= htmlspecialchars($_POST['contact'] ?? '') ?>">
                 </div>
             </div>
 
             <!-- Address Information -->
-            <h5 class="text-success mb-2 ">Address Information</h5>
+            <h5 class="text-success mb-2 text-white ">Address Information</h5>
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
-                    <label class="form-label small">Purok*</label>
-                    <input type="text" class="form-control form-control-sm" name="purok" required value="<?= htmlspecialchars($_POST['purok'] ?? '') ?>">
+                    <label class="form-label small text-white">Purok*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="purok" required value="<?= htmlspecialchars($_POST['purok'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Barangay*</label>
-                    <input type="text" class="form-control form-control-sm" name="barangay" required value="<?= htmlspecialchars($_POST['barangay'] ?? '') ?>">
+                    <label class="form-label small text-white">Barangay*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="barangay" required value="<?= htmlspecialchars($_POST['barangay'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Municipality*</label>
-                    <input type="text" class="form-control form-control-sm" name="municipality" required value="<?= htmlspecialchars($_POST['municipality'] ?? '') ?>">
+                    <label class="form-label small text-white">Municipality*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="municipality" required value="<?= htmlspecialchars($_POST['municipality'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Province*</label>
-                    <input type="text" class="form-control form-control-sm" name="province" required value="<?= htmlspecialchars($_POST['province'] ?? '') ?>">
+                    <label class="form-label small text-white">Province*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="province" required value="<?= htmlspecialchars($_POST['province'] ?? '') ?>">
                 </div>
             </div>
 
             <!-- Account Information -->
-            <h5 class="text-success mb-2 ">Account Information</h5>
+            <h5 class="text-success mb-2 text-white">Account Information</h5>
             <div class="row g-2 mb-3">
                 <div class="col-md-3">
-                    <label class="form-label small">Email*</label>
-                    <input type="email" class="form-control form-control-sm" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                    <label class="form-label small text-white">Email*</label>
+                    <input type="email" class="form-control form-control-sm border border-dark" name="email" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Username*</label>
-                    <input type="text" class="form-control form-control-sm" name="username" required value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
+                    <label class="form-label small text-white">Username*</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="username" required value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Password*</label>
-                    <input type="password" class="form-control form-control-sm" name="password" required>
+                    <label class="form-label small text-white">Password*</label>
+                    <input type="password" class="form-control form-control-sm border border-dark" name="password" required>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label small">Confirm Password*</label>
-                    <input type="password" class="form-control form-control-sm" name="confirm_password" required>
+                    <label class="form-label small text-white">Confirm Password*</label>
+                    <input type="password" class="form-control form-control-sm border border-dark" name="confirm_password" required>
                 </div>
             </div>
 
             <!-- Farm Information -->
-            <h5 class="text-success mb-2 ">Farm Information</h5>
+            <h5 class="text-success mb-2 text-white">Farm Information</h5>
             <div class="row g-2 mb-3">
                 <div class="col-md-6">
-                    <label class="form-label small">Farm Type</label>
-                    <input type="text" class="form-control form-control-sm" name="farm_type" value="<?= htmlspecialchars($_POST['farm_type'] ?? '') ?>">
+                    <label class="form-label small text-white">Farm Type</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="farm_type" value="<?= htmlspecialchars($_POST['farm_type'] ?? '') ?>">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label small">Farm Size (hectares)</label>
-                    <input type="text" class="form-control form-control-sm" name="farm_size" value="<?= htmlspecialchars($_POST['farm_size'] ?? '') ?>">
+                    <label class="form-label small text-white">Farm Size (hectares)</label>
+                    <input type="text" class="form-control form-control-sm border border-dark" name="farm_size" value="<?= htmlspecialchars($_POST['farm_size'] ?? '') ?>">
                 </div>
             </div>
 
             <div class="d-flex justify-content-center mt-3">
-                <button type="submit" class="btn btn-success px-5 btn-sm">Register</button>
+                <button type="submit" class="btn btn-success px-5 btn-sm border border-dark">Register</button>
             </div>
         </form>
     </div>

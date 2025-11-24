@@ -4,7 +4,7 @@ body {
   font-family: 'Poppins', sans-serif;
 
   /* This is correct path based on your folder */
-  background-image: url('../images/farm.jpg');
+  background-image: url('../images/rice.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

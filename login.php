@@ -92,18 +92,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form action="login.php" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email"
+                            <input type="email" class="form-control border border-dark" name="email" id="email"
                                 placeholder="Enter your email" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="password"
+                            <input type="password" class="form-control border border-dark" name="password" id="password"
                                 placeholder="Enter your password" required>
                         </div>
 
                         <div class="d-flex justify-content-center mt-3">
-                            <button type="submit" class="btn btn-success px-5 btn-sm">Login</button>
+                            <button type="submit" class="btn btn-success px-5 btn-sm border border-dark">Login</button>
                         </div>
 
                         <p class="mt-3 text-center small">

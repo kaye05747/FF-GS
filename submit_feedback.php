@@ -92,9 +92,9 @@
 
             <button class="btn btn-success w-100" type="submit">Submit Feedback</button>
 
-            <p class="text-center mt-2">
-                <a href="dashboard.php" class="btn-back">⬅ Back to Dashboard</a>
-            </p>
+            <div class="text-center mt-3">
+            <a href="dashboard.php" class="btn-back">⬅ Back to Dashboard</a>
+        </div>
 
         </form>
 

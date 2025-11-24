@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__. '/includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 require_login();
 $pdo = db();
 
@@ -59,34 +59,45 @@ h2 { font-weight:600; color:#0b5132; margin-bottom:30px; }
 
 .filters select { border-radius:6px; }
 
-/* Timeline-style card */
+/* Professional Timeline */
 .timeline {
   position: relative;
-  margin-left: 20px;
-  padding-left: 20px;
+  padding-left: 40px;
+  margin-top: 20px;
 }
 .timeline::before {
   content:'';
   position:absolute;
-  left:0;
+  left:18px;
   top:0;
   bottom:0;
   width:4px;
-  background:#dee2e6;
+  background:none;
+  border-left: 3px dashed #dee2e6;
   border-radius:2px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left:11px;
+  width:14px;
+  height:14px;
+  background:#fff;
+  border:3px solid #198754;
+  border-radius:50%;
+  top:0;
 }
 
 .announcement-card {
   position: relative;
-  border-left:6px solid #198754;
-  background:#fff;
-  border-radius:10px;
-  padding:18px 20px;
   margin-bottom:25px;
+  padding:18px 20px;
+  border-radius:10px;
+  background:#fff;
   box-shadow:0 2px 8px rgba(0,0,0,0.06);
   transition:0.2s all;
 }
-.announcement-card:hover { transform:translateY(-4px); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
+.announcement-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
 
 .announcement-title { font-size:1.15rem; font-weight:600; color:#198754; }
 .badge-cat { border-radius:6px; padding:4px 8px; font-weight:600; font-size:0.85rem; }
@@ -134,11 +145,11 @@ h2 { font-weight:600; color:#0b5132; margin-bottom:30px; }
       $color = $categoryColors[$a['category']] ?? '#198754';
       $icon = $categoryIcons[$a['category']] ?? '';
   ?>
-  <div class="announcement-card" style="border-left-color:<?= $color ?>;" id="announcement-<?= (int)$a['id'] ?>">
+  <div class="timeline-marker" style="border-color:<?= $color ?>; top:10px;"></div>
+  <div class="announcement-card" id="announcement-<?= (int)$a['id'] ?>" style="border-left:6px solid <?= $color ?>;">
     <div class="d-flex justify-content-between align-items-start">
       <div>
-        <div class="announcement-title">
-          <?= $icon ?>Announcement #<?= htmlspecialchars($a['id']) ?>
+        <div class="announcement-title"><?= $icon ?>Announcement #<?= htmlspecialchars($a['id']) ?>
           <?php if((int)$a['is_read']===0): ?><span class="new-badge">NEW</span><?php endif; ?>
         </div>
         <span class="badge-cat" style="background:<?= $color ?>33; color:<?= $color ?>"><?= htmlspecialchars($a['category']) ?></span>

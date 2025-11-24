@@ -26,3 +26,12 @@ body {
 input, select, textarea {
     border-radius: 6px !important;
 }
+.btn-back {
+  background: #27ae60;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-back:hover { background: #1e8449; color:white; }

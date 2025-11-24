@@ -1,7 +1,7 @@
 /* Background Image */
 
 body {
-    background: url('../images/farmer1.jpg') no-repeat center center fixed;
+    background: url('../images/rice.jpg') no-repeat center center fixed;
     background-size: cover;
     position: relative;
 }

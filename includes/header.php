@@ -78,7 +78,7 @@ require_once __DIR__ . '/functions.php';
 
 <header>
   <div class="logo">
-    🌾 FarmFeed
+    🌾 FARMER'S FEEDBACK AND GRIEVANCE SYSTEM
   </div>
 
     <nav>
